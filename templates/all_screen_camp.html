@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>عرض الصور</title>
+    <style>
+        body {
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            height: auto;
+            width: auto;
+        }
+        
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+        
+        .active {
+            opacity: 1;
+        }
+        
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="slideshow-container" class="slideshow-container">
+        {% for image in images %}
+        <div class="slide">
+            <img src="{{ url_for('static', filename='images/' + image[1]) }}">
+        </div>
+        {% endfor %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var slides = $('.slide');
+            var slideIndex = 0;
+            showSlide();
+
+            function showSlide() {
+                slides.removeClass('active');
+                slides.eq(slideIndex).addClass('active');
+                slideIndex = (slideIndex + 1) % slides.length;
+                setTimeout(showSlide, 60000); // تأخير الشريحة لمدة 5 ثوانٍ قبل الانتقال إلى الشريحة التالية
+            }
+        });
+    </script>
+    <script>
+        setTimeout(function() {
+            location.reload();
+        }, 600000); // تحديث الصفحة كل 5 ثواني (5000 مللي ثانية)
+    </script>
+</body>
+
+</html>
